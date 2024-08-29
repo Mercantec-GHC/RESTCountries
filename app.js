@@ -1,7 +1,9 @@
 let ChosenCountry;
 
 async function initializeGame() {
-  ChosenCountry = await fetchCountries();
+  let countries = await fetchCountries();
+  ChosenCountry = GetRandomCountry(countries);
+  ChangeFlag();
 }
 
 async function fetchCountries() {
@@ -19,9 +21,7 @@ async function fetchCountries() {
   } catch (error) {
     console.error("Der var et problem med vores API-kald:", error);
   }
-  let randomCountry = GetRandomCountry(countries);
-
-  return randomCountry;
+  return countries;
 }
 
 function GetRandomCountry(countries) {
@@ -39,6 +39,12 @@ function GuessCountry(guess) {
   } else {
     console.log("Forkert, prøv igen!");
   }
+}
+
+function ChangeFlag() {
+  let img = document.getElementById("flag-image");
+  console.log(ChosenCountry);
+  img.src = ChosenCountry.flags.png;
 }
 
 initializeGame();
