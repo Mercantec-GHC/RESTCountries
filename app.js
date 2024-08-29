@@ -1,3 +1,9 @@
+let ChosenCountry;
+
+async function initializeGame() {
+  ChosenCountry = await fetchCountries();
+}
+
 async function fetchCountries() {
   let countries = [];
   try {
@@ -10,14 +16,12 @@ async function fetchCountries() {
     }
 
     countries = await response.json();
-
-    console.log(countries);
-
-    // Mere kode!
   } catch (error) {
     console.error("Der var et problem med vores API-kald:", error);
   }
-  GetRandomCountry(countries);
+  let randomCountry = GetRandomCountry(countries);
+
+  return randomCountry;
 }
 
 function GetRandomCountry(countries) {
@@ -29,4 +33,12 @@ function GetRandomCountry(countries) {
   return randomCountry;
 }
 
-fetchCountries();
+function GuessCountry(guess) {
+  if (guess === ChosenCountry.name.common) {
+    console.log("Rigtigt");
+  } else {
+    console.log("Forkert, prøv igen!");
+  }
+}
+
+initializeGame();
