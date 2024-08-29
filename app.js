@@ -33,11 +33,28 @@ function GetRandomCountry(countries) {
   return randomCountry;
 }
 
-function GuessCountry(guess) {
-  if (guess === ChosenCountry.name.common) {
-    console.log("Rigtigt");
+function GuessCountry() {
+  const userGuess = document.getElementById("flag-guess").value.trim();
+  console.log(userGuess);
+  const resultDiv = document.getElementById("result");
+
+  if (!userGuess) {
+    resultDiv.textContent = "Indtast venligst et lands navn.";
+    resultDiv.style.color = "orange";
+    return;
+  }
+
+  if (
+    ChosenCountry &&
+    userGuess.toLowerCase() === ChosenCountry.name.common.toLowerCase()
+  ) {
+    resultDiv.textContent = "Korrekt! Det er " + userGuess + "!";
+    resultDiv.style.color = "green";
+    document.getElementById("flag-guess").value = "";
   } else {
-    console.log("Forkert, prøv igen!");
+    resultDiv.textContent =
+      "Forkert, det var ikke " + userGuess + " prøv igen!";
+    resultDiv.style.color = "red";
   }
 }
 
