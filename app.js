@@ -1,4 +1,5 @@
 async function fetchCountries() {
+  let countries = [];
   try {
     const response = await fetch(
       "https://restcountries.com/v3.1/all?fields=flags,name,cca3"
@@ -8,7 +9,7 @@ async function fetchCountries() {
       throw new Error("Der gik noget galt!");
     }
 
-    const countries = await response.json();
+    countries = await response.json();
 
     console.log(countries);
 
@@ -16,6 +17,16 @@ async function fetchCountries() {
   } catch (error) {
     console.error("Der var et problem med vores API-kald:", error);
   }
+  GetRandomCountry(countries);
+}
+
+function GetRandomCountry(countries) {
+  let randomCountryNumber = Math.floor(Math.random() * countries.length);
+  let randomCountry = countries[randomCountryNumber];
+  console.log(randomCountry);
+  console.log(randomCountry.name.common);
+  console.log(randomCountry.flags.png);
+  return randomCountry;
 }
 
 fetchCountries();
