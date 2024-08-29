@@ -4,6 +4,8 @@ async function initializeGame() {
   let countries = await fetchCountries();
   ChosenCountry = GetRandomCountry(countries);
   ChangeFlag();
+  Choices = MultipleChoice(countries, ChosenCountry, 3);
+  AddChoisesToHTML(Choices);
 }
 
 async function fetchCountries() {
@@ -31,6 +33,30 @@ function GetRandomCountry(countries) {
   console.log(randomCountry.name.common);
   console.log(randomCountry.flags.png);
   return randomCountry;
+}
+
+function MultipleChoice(countries, correctAnswer, numberOfChoices) {
+  let Choices = [];
+  Choices.push(correctAnswer.name.common);
+  for (let i = 0; i < numberOfChoices; i++) {
+    let randomCountryNumber = Math.floor(Math.random() * countries.length);
+    let randomCountry = countries[randomCountryNumber];
+    Choices.push(randomCountry.name.common);
+  }
+  console.log(Choices);
+  return Choices;
+}
+
+function AddChoisesToHTML(Choices) {
+  const selectElement = document.getElementById("flag-choices");
+  selectElement.innerHTML = "";
+
+  Choices.forEach((countryName) => {
+    let option = document.createElement("option");
+    option.value = countryName;
+    option.textContent = countryName;
+    selectElement.appendChild(option);
+  });
 }
 
 function GuessCountry() {
