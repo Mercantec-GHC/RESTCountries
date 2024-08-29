@@ -4,7 +4,7 @@ async function initializeGame() {
   let countries = await fetchCountries();
   ChosenCountry = GetRandomCountry(countries);
   ChangeFlag();
-  Choices = MultipleChoice(countries, ChosenCountry, 3);
+  let Choices = MultipleChoice(countries, ChosenCountry, 3);
   AddChoisesToHTML(Choices);
 }
 
@@ -50,17 +50,24 @@ function MultipleChoice(countries, correctAnswer, numberOfChoices) {
 function AddChoisesToHTML(Choices) {
   const selectElement = document.getElementById("flag-choices");
   selectElement.innerHTML = "";
+  let option = document.createElement("option");
+  option.value = "";
+  option.textContent = "Vælg et land";
+  selectElement.appendChild(option);
 
   Choices.forEach((countryName) => {
-    let option = document.createElement("option");
+    option = document.createElement("option");
     option.value = countryName;
     option.textContent = countryName;
     selectElement.appendChild(option);
   });
+
+  // Tilføj event listener, der aktiverer gætningen når et valg ændres
+  selectElement.addEventListener("change", GuessCountry);
 }
 
 function GuessCountry() {
-  const userGuess = document.getElementById("flag-guess").value.trim();
+  const userGuess = document.getElementById("flag-choices").value.trim();
   console.log(userGuess);
   const resultDiv = document.getElementById("result");
 
@@ -76,7 +83,6 @@ function GuessCountry() {
   ) {
     resultDiv.textContent = "Korrekt! Det er " + userGuess + "!";
     resultDiv.style.color = "green";
-    document.getElementById("flag-guess").value = "";
   } else {
     resultDiv.textContent =
       "Forkert, det var ikke " + userGuess + " prøv igen!";
