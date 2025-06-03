@@ -1,3 +1,5 @@
+let countries = [];
+
 async function fetchCountries() {
   try {
     const response = await fetch(
@@ -8,9 +10,10 @@ async function fetchCountries() {
       throw new Error("Der gik noget galt!");
     }
 
-    const countries = await response.json();
+    console.log("countries før vi fetcher", countries);
+    countries = await response.json();
 
-    console.log(countries);
+    console.log("countries efter vi fetcher", countries);
 
     // Mere kode!
   } catch (error) {
